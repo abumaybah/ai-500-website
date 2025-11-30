@@ -208,13 +208,14 @@
                     opacity: 0;
                     visibility: hidden;
                     transition: all 0.3s ease;
-                    z-index: 999;
+                    z-index: 1001;
                 }
 
                 .nav-links.active {
                     transform: translateY(0);
                     opacity: 1;
                     visibility: visible;
+                    display: inline-block;
                 }
 
                 .nav-links li {
@@ -1145,7 +1146,24 @@
             const mobileMenu = document.querySelector('.mobile-menu');
             const navLinks = document.querySelector('.nav-links');
 
+            // Function to set dynamic top position (for mobile only)
+            function setMobileMenuTop() {
+                if (window.innerWidth <= 768) {
+                    const header = document.querySelector('header');
+                    navLinks.style.top = header.offsetHeight + 'px';
+                } else {
+                    navLinks.style.top = ''; // Reset on desktop
+                }
+            }
+
+            // Set on load
+            setMobileMenuTop();
+
+            // Re-set on resize (e.g., orientation change)
+            window.addEventListener('resize', setMobileMenuTop);
+
             mobileMenu.addEventListener('click', function () {
+                console.log('Burger clicked!'); // Temp debug—remove later
                 // Toggle the active class on nav-links
                 navLinks.classList.toggle('active');
 
